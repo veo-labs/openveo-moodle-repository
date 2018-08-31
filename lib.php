@@ -66,7 +66,8 @@ class repository_openveo extends repository {
      * for all types. It also contains the settings saved in the database.
      * @param int $readonly Indicate this repository is readonly or not
      */
-    public function __construct($repositoryid, $context = SYSCONTEXTID, $options = array(), $readonly = 0) {
+    public function __construct(int $repositoryid, $context = SYSCONTEXTID, array $options = array(),
+                                int $readonly = 0) {
         parent::__construct($repositoryid, $context, $options, $readonly);
 
         // We make use of the local plugin "OpenVeo API" to get connection information to communicate with OpenVeo
