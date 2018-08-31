@@ -72,11 +72,11 @@ class repository_openveo extends repository {
 
         // We make use of the local plugin "OpenVeo API" to get connection information to communicate with OpenVeo
         // web service.
-        $this->cdnurl = get_config('local_openveo_api', 'settingscdnurl');
-        $url = get_config('local_openveo_api', 'settingswebserviceurl');
-        $clientid = get_config('local_openveo_api', 'settingswebserviceclientid');
-        $clientsecret = get_config('local_openveo_api', 'settingswebserviceclientsecret');
-        $certificatefilepath = get_config('local_openveo_api', 'settingswebservicecertificatefilepath');
+        $this->cdnurl = get_config('local_openveo_api', 'cdnurl');
+        $url = get_config('local_openveo_api', 'webserviceurl');
+        $clientid = get_config('local_openveo_api', 'webserviceclientid');
+        $clientsecret = get_config('local_openveo_api', 'webserviceclientsecret');
+        $certificatefilepath = get_config('local_openveo_api', 'webservicecertificatefilepath');
 
         try {
             $this->client = new Client($url, $clientid, $clientsecret, $certificatefilepath);
