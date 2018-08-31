@@ -37,6 +37,12 @@ If you experience troubleshooting during installation, please refer to the [Mood
 
 Be careful when uninstalling, all OpenVeo videos added to Moodle won't be downloaded to Moodle as it could be with another repository plugin. Links in rich text editors will point to missing files.
 
+# Troubleshooting
+
+## Can't add OpenVeo videos in the file manager
+
+It could happen if the filemanager is restricted to some extensions. **.openveo** file extension has to be authorized to be able to add OpenVeo videos.
+
 # Contributors
 
 Maintainer: [Veo-Labs](http://www.veo-labs.com/)
