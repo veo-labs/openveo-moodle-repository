@@ -29,6 +29,7 @@ require_once($CFG->dirroot . '/local/openveo_api/lib.php');
 use Openveo\Client\Client;
 use Openveo\Exception\ClientException;
 use local_openveo_api\event\connection_failed;
+use repository_openveo\output\openveo_file_reference;
 
 /**
  * Defines the OpenVeo repository.
@@ -103,7 +104,7 @@ class repository_openveo extends repository {
      * @return array The list of supported file types
      */
     public function supported_filetypes() : array {
-        return array('video');
+        return array('video', '.openveo');
     }
 
     /**
@@ -314,5 +315,53 @@ class repository_openveo extends repository {
      * @param int $maxbytes File size limit (0 means no limit)
      */
     public function import_external_file_contents(stored_file $file, $maxbytes = 0) {}
+
+    /**
+     * Serves the original file behind reference.
+     *
+     * OpenVeo Repository is unabled to serve the original OpenVeo file as original OpenVeo file can't be donwloaded.
+     * Instead of sending file for download it displays a page with a link to the Moodle file reference which might
+     * be transformed into a player by a Media Player.
+     *
+     * @param stored_file $storedfile The file containing the reference
+     * @param int $lifetime Number of seconds before the file should expire from caches. Not used by this
+     * implementation
+     * @param int $filter 0 (default)=no filtering, 1=all files, 2=html files only. Not used by this implementation
+     * @param bool $forcedownload true (default false) forces download of file rather than displaying the file. This
+     * implementation won't propose to download the file even if true
+     * @param array $options Additional options affecting the file serving
+     */
+    public function send_file($storedfile, $lifetime = null, $filter = 0, $forcedownload = false,
+                              array $options = null) {
+        global $PAGE;
+
+        if ($storedfile->get_component() === 'user' && $storedfile->get_filearea() === 'draft') {
+            return;
+        }
+
+        require_login();
+
+        // Set page header to the file name.
+        $filename = $storedfile->get_filename();
+        $url = moodle_url::make_pluginfile_url(
+                $storedfile->get_contextid(),
+                $storedfile->get_component(),
+                $storedfile->get_filearea(),
+                $storedfile->get_itemid(),
+                $storedfile->get_filepath(),
+                $storedfile->get_filename()
+        );
+
+        $renderer = $PAGE->get_renderer('repository_openveo');
+        $openveofilereference = new openveo_file_reference($url, $filename);
+
+        $fileoutput = format_text($renderer->render($openveofilereference));
+
+        $PAGE->set_heading($filename);
+        $PAGE->set_url(new moodle_url($url));
+        echo $renderer->header();
+        echo $fileoutput;
+        echo $renderer->footer();
+    }
 
 }
