@@ -29,6 +29,7 @@ require_once($CFG->dirroot . '/local/openveo_api/lib.php');
 use Openveo\Client\Client;
 use Openveo\Exception\ClientException;
 use local_openveo_api\event\connection_failed;
+use repository_openveo\event\getting_videos_failed;
 use repository_openveo\output\openveo_file_reference;
 
 /**
@@ -205,6 +206,12 @@ class repository_openveo extends repository {
 
         try {
             $response = $this->client->get('publish/videos/' . $reference);
+
+            if (isset($response->error)) {
+                $this->send_getting_videos_failed_event($response->error->code, $response->error->module);
+                return '';
+            }
+
             $video = $response->entity;
         } catch(Exception $e) {
             $event = connection_failed::create(array(
@@ -260,6 +267,12 @@ class repository_openveo extends repository {
 
                 // Use video id to get full information about the video from OpenVeo web service.
                 $response = $this->client->get('publish/videos/' . $matches[1]);
+
+                if (isset($response->error)) {
+                    $this->send_getting_videos_failed_event($response->error->code, $response->error->module);
+                    return $list;
+                }
+
                 $video = $response->entity;
 
             }
@@ -362,6 +375,25 @@ class repository_openveo extends repository {
         echo $renderer->header();
         echo $fileoutput;
         echo $renderer->footer();
+    }
+
+    /**
+     * Triggers a repository_openveo\event\getting_videos_failed event with the given message.
+     *
+     * @param int $code The error code
+     * @param string $module The module associated to the error
+     */
+    private function send_getting_videos_failed_event(int $code, string $module) {
+        global $PAGE;
+
+        $event = getting_videos_failed::create(array(
+            'context' => $PAGE->context,
+            'other' => array(
+                'code' => $code,
+                'module' => $module
+            )
+        ));
+        $event->trigger();
     }
 
 }
