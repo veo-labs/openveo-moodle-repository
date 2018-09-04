@@ -82,7 +82,7 @@ class repository_openveo extends repository {
         try {
             $this->client = new Client($url, $clientid, $clientsecret, $certificatefilepath);
         } catch(ClientException $e) {
-            throw new moodle_exception('localpluginnotconfigurederror', 'repository_openveo');
+            throw new moodle_exception('errorlocalpluginnotconfigured', 'repository_openveo');
         }
     }
 

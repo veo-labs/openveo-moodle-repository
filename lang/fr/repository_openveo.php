@@ -42,4 +42,4 @@ $string['searchformsubmitlabel'] = 'Rechercher';
 $string['lostsource'] = 'Erreur. La vidéo OpenVeo "{$a}" n\'existe plus.';
 
 // Errors
-$string['localpluginnotconfigurederror'] = 'Le plugin local "OpenVeo API" n\'est pas configuré.';
+$string['errorlocalpluginnotconfigured'] = 'Le plugin local "OpenVeo API" n\'est pas configuré.';
