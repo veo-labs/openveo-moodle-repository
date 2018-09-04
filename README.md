@@ -28,8 +28,8 @@ OpenVeo Moodle Repository is a Moodle Repository plugin which lets you add video
 - Download zip file corresponding to the latest stable version of the OpenVeo Moodle Repository plugin
 - Unzip it and rename **openveo-moodle-repository-\*** directory into **openveo**
 - Move your **openveo** folder into **MOODLE_ROOT_PATH/repository/** where MOODLE_ROOT_PATH is your Moodle installation folder
-- In your Moodle site (as admin) go to **Settings > Site administration > Notifications**: you should get a message saying the plugin is installed
-- In your Moodle site (as admin) go to **Settings > Site administration > Plugins > Repositories > Manage repositories**: activate the repository (**Enabled and visible**)
+- In your Moodle site (as admin) go to **Site administration > Notifications**: you should get a message saying the plugin is installed
+- In your Moodle site (as admin) go to **Site administration > Plugins > Repositories > Manage repositories**: activate the repository (**Enabled and visible**)
 
 If you experience troubleshooting during installation, please refer to the [Moodle](https://docs.moodle.org) installation plugin documentation.
 
