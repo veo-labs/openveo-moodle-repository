@@ -28,6 +28,11 @@ $string['pluginname'] = 'OpenVeo Repository';
 // Settings page: Header
 $string['configplugin'] = 'OpenVeo Repository settings';
 
+// Global settings
+$string['settingssupportedfiletypeslabel'] = 'Video types';
+$string['settingssupportedfiletypes'] = 'Video types';
+$string['settingssupportedfiletypes_help'] = 'The list of video types the OpenVeo Repository can add. Only form fields accepting the video types listed here will be able to add videos using OpenVeo Repository.';
+
 // Capabilities
 $string['openveo:view'] = 'Use OpenVeo in file picker';
 

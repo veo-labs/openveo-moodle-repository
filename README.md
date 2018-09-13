@@ -11,15 +11,6 @@ OpenVeo Moodle Repository is a Moodle Repository plugin which lets you add video
 - [Openveo Publish plugin](https://github.com/veo-labs/openveo-publish) >=7.1.0
 - [OpenVeo Moodle API plugin](https://github.com/veo-labs/openveo-moodle-api) >=1.0.0
 - Allow external links using Moodle administration interface (**Plugins > Repositories > Allow external links is activated**)
-- Create a new file type using Moodle administration interface (**Server > File types > Add a new file type**) with the following configuration:
-    - Extension: **openveo**
-    - MIME type: **video/mp4**
-    - File icon: **mpeg**
-    - Type groups: -
-    - Description type: **Alternative language string (from mimetypes.php)**
-    - Custom description: -
-    - Alternative language string: **video**
-    - Default icon for MIME type: **No**
 - OpenVeo web service client for Moodle must have scope **Get videos**
 - OpenVeo Moodle API plugin should be configured to communicate with OpenVeo web service
 
@@ -39,9 +30,9 @@ Be careful when uninstalling, all OpenVeo videos added to Moodle won't be downlo
 
 # Troubleshooting
 
-## Can't add OpenVeo videos in the file manager
+## Can't add an OpenVeo video
 
-It could happen if the filemanager is restricted to some extensions. **.openveo** file extension has to be authorized to be able to add OpenVeo videos.
+It could happen if the form field is restricted to some extensions. Make sure that field accepted extensions correspond to, at least, one of the extensions listed in OpenVeo Repository settings (**Site administration > Plugins > Repositories > OpenVeo Repository**).
 
 # Contributors
 

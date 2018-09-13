@@ -26,6 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/local/openveo_api/lib.php');
 
+use core_form\filetypes_util;
 use Openveo\Client\Client;
 use Openveo\Exception\ClientException;
 use local_openveo_api\event\connection_failed;
@@ -100,12 +101,14 @@ class repository_openveo extends repository {
     /**
      * Indicates the type of files supported by this repository.
      *
-     * OpenVeo Repository is available everywhere a video can be added.
+     * OpenVeo Repository can be used anywhere a file field accepts one of the file types defined in repository configuration.
      *
      * @return array The list of supported file types
      */
     public function supported_filetypes() : array {
-        return array('video', '.openveo');
+        $filetypesutil = new filetypes_util();
+        $supportedfiletypes = get_config('openveo', 'supportedfiletypes');
+        return $filetypesutil->normalize_file_types($supportedfiletypes);
     }
 
     /**
@@ -247,6 +250,8 @@ class repository_openveo extends repository {
      * interface.
      */
     public function search($search_text, $page = 0) : array {
+        $supportedfiletypes = get_config('openveo', 'supportedfiletypes');
+        $filetypesutil = new filetypes_util();
         $video = null;
         $list = array();
         $list['list'] = array();
@@ -257,8 +262,38 @@ class repository_openveo extends repository {
         $list['norefresh'] = true;
         $list['manage'] = trim($this->cdnurl, '/') . '/be';
 
-        // Retrieve URL from submitted data (e.g. https://openveo.local.com/publish/video/ryiKXvW1X?lang=en).
+        // Retrieve URL (e.g. https://openveo.local.com/publish/video/ryiKXvW1X?lang=en) and accepted types from submitted data.
         $url = optional_param('url', '', PARAM_RAW_TRIMMED);
+        $acceptedtypes  = optional_param_array('accepted_types', '*', PARAM_RAW);
+        $supportedfiletypes = $filetypesutil->normalize_file_types($supportedfiletypes);
+        $supportedfileextensions = file_get_typegroup('extension', $supportedfiletypes);
+
+        // Find which extension to use for OpenVeo Publish video references within Moodle. OpenVeo Publish videos don't have
+        // extensions and have all extensions at the same time, because OpenVeo Publish videos are not files. A video on OpenVeo
+        // Publish is a combination of several resources. But to create a reference to an OpenVeo Publish video, in Moodle, Moodle
+        // needs an extension. It needs an extension to be able to tell if the video is authorized in a field depending on the field
+        // restrictions. As OpenVeo Publish videos don't have extensions, an arbitrary list of extensions is defined in OpenVeo
+        // Repository settings.
+        // Consequently the chosen extension has to be supported by the repository (as defined in configuration) and also by the
+        // field. The first common extension found will be the one used.
+        if (!is_array($acceptedtypes)) {
+            $acceptedtypes = array($acceptedtypes);
+        }
+
+        if (in_array('*', $acceptedtypes)) {
+
+            // Field accepts any kind of videos. Set extension to the first extension configured in OpenVeo Repository settings.
+            $extension = $supportedfileextensions[0];
+
+        } else {
+
+            // Field has restricted extensions.
+            // Find a common extension between field extensions and supported extensions.
+            $commonextensions = array_intersect($supportedfileextensions, $acceptedtypes);
+            $extension = $commonextensions[0];
+
+        }
+
         try {
             $moodleurl = new moodle_url($url);
 
@@ -295,7 +330,7 @@ class repository_openveo extends repository {
                 'size' => 0,
                 'source' => $video->id,
                 'shorttitle' => $video->title,
-                'title' => $video->title . '.openveo',
+                'title' => $video->title . $extension,
                 'thumbnail' => $video->thumbnail . '?style=publish-square-142',
                 'thumbnail_width' => 142,
                 'thumbnail_height' => 142,
@@ -375,6 +410,45 @@ class repository_openveo extends repository {
         echo $renderer->header();
         echo $fileoutput;
         echo $renderer->footer();
+    }
+
+    /**
+     * Gets the list of repository global setting names.
+     *
+     * Global settings are applied to all repository instances. OpenVeo Repository authorizes only one instance.
+     *
+     * @see type_config_form
+     * @return array The list of global setting names
+     */
+    public static function get_type_option_names() {
+        return array_merge(parent::get_type_option_names(), array('supportedfiletypes'));
+    }
+
+    /**
+     * Creates repository settings form.
+     *
+     * Moodle form is already instanciated by Moodle. By default the form has a field to set the name of the repository.
+     * Note that repository settings are saved to database, by Moodle, without prefix...
+     *
+     * @param moodleform $form The settings form
+     * @param string $classname The repository class name
+     */
+    public static function type_config_form($form, $classname = 'repository') {
+        parent::type_config_form($form, $classname);
+
+        // Supported video types.
+        // Client side validation is not working for filetypes fields...
+        // Groups "html_video" and "web_video" have to be added as without it Moodle validation does not work...
+        $form->addElement(
+                'filetypes',
+                'supportedfiletypes',
+                get_string('settingssupportedfiletypeslabel', 'repository_openveo'),
+                array('onlytypes' => ['video', 'html_video', 'web_video'])
+        );
+        $form->setType('supportedfiletypes', PARAM_RAW_TRIMMED);
+        $form->addRule('supportedfiletypes', null, 'required', null, 'server');
+        $form->addHelpButton('supportedfiletypes', 'settingssupportedfiletypes', 'repository_openveo');
+        $form->setDefault('supportedfiletypes', '.mp4');
     }
 
     /**

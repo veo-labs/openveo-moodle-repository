@@ -28,6 +28,11 @@ $string['pluginname'] = 'Dépôt OpenVeo';
 // Settings page: Header
 $string['configplugin'] = 'Configuration Dépôt OpenVeo';
 
+// Global settings
+$string['settingssupportedfiletypeslabel'] = 'Types de vidéos';
+$string['settingssupportedfiletypes'] = 'Types de vidéos';
+$string['settingssupportedfiletypes_help'] = 'La liste des types de vidéos que le dépôt OpenVeo peut ajouter. Seuls les champs de formulaire acceptant les types de vidéos listés ici pourront ajouter une vidéo avec le Dépôt OpenVeo.';
+
 // Capabilities
 $string['openveo:view'] = 'Utiliser OpenVeo dans le sélecteur de fichiers';
 
