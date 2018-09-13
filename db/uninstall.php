@@ -26,27 +26,12 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/repository/lib.php');
 
+use repository_openveo\local\uninstaller;
+
 /**
  * Uninstalls the plugin.
- *
- * Moodle repositories supporting FILE_REFERENCE should normally be able to download external files to import them
- * into Moodle when uninstalling. The OpenVeo repository does not support the download of an OpenVeo
- * video, consequently no files will be imported when uninstalling the repository. As Moodle expects files to be
- * imported it doesn't remove the files associated to the repository, this is the purpose of this function.
- * Removed files won't appear in filemanager and links created in the editor will refer to missing files.
  */
 function xmldb_repository_openveo_uninstall() {
-    global $DB;
-
-    // Retrieve OpenVeo Repository instances.
-    $instances = repository::get_instances(array('type' => 'openveo'));
-
-    foreach ($instances as $instance) {
-
-        // Remove files associated to the instance.
-        $instance->remove_files();
-
-    }
-
+    uninstaller::remove_repository_files();
     return true;
 }
