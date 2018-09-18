@@ -439,6 +439,7 @@ class repository_openveo extends repository {
         // Supported video types.
         // Client side validation is not working for filetypes fields...
         // Groups "html_video" and "web_video" have to be added as without it Moodle validation does not work...
+        $defaultsupportedfiletypes = get_config('openveo', 'supportedfiletypes');
         $form->addElement(
                 'filetypes',
                 'supportedfiletypes',
@@ -448,7 +449,9 @@ class repository_openveo extends repository {
         $form->setType('supportedfiletypes', PARAM_RAW_TRIMMED);
         $form->addRule('supportedfiletypes', null, 'required', null, 'server');
         $form->addHelpButton('supportedfiletypes', 'settingssupportedfiletypes', 'repository_openveo');
-        $form->setDefault('supportedfiletypes', '.mp4');
+        if (!empty($defaultsupportedfiletypes)) {
+            $form->setDefault('supportedfiletypes', $defaultsupportedfiletypes);
+        }
     }
 
     /**
