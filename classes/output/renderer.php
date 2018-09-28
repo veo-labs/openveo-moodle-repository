@@ -45,7 +45,7 @@ class renderer extends plugin_renderer_base {
      */
     public function render_openveo_file_reference(openveo_file_reference $filereference) : string {
         $data = $filereference->export_for_template($this);
-        return parent::render_from_template('repository_openveo/openveo_file_reference', $data);
+        return parent::render_from_template('repository_openveo/file_reference', $data);
     }
 
 }

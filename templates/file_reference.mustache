@@ -15,7 +15,7 @@
     along with Moodle. If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template repository_openveo/openveo_file_reference
+    @template repository_openveo/file_reference
 
     Template to display an OpenVeo file reference.
 
@@ -29,5 +29,6 @@
         "filename": "File name.mp4",
     }
 }}
-
-<a href="{{url}}" title="{{filename}}">{{filename}}</a>
+<div class="repository-openveo-file-reference">
+    <a href="{{url}}" title="{{filename}}">{{filename}}</a>
+</div>
