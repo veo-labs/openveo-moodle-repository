@@ -43,28 +43,19 @@ use renderer_base;
 class openveo_file_reference implements renderable, templatable {
 
     /**
-     * The Moodle URL, either a draftfile URL or a pluginfile URL.
+     * The OpenVeo video URL.
      *
      * @var string
      */
     protected $url;
 
     /**
-     * The file reference name.
-     *
-     * @var string
-     */
-    protected $filename;
-
-    /**
      * Creates a new openveo_file_reference.
      *
-     * @param string $url The file reference URL
-     * @param string $filename The file reference name
+     * @param string $url The OpenVeo video URL
      */
-    public function __construct(string $url, string $filename = null) {
+    public function __construct(string $url) {
         $this->url = $url;
-        $this->filename = $filename;
     }
 
     /**
@@ -77,7 +68,6 @@ class openveo_file_reference implements renderable, templatable {
     public function export_for_template(renderer_base $output) : stdClass {
         $data = new stdClass();
         $data->url = $this->url;
-        $data->filename = $this->filename;
         return $data;
     }
 

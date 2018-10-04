@@ -24,7 +24,11 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/local/openveo_api/lib.php');
+if (!file_exists($CFG->dirroot . '/local/openveo_api/lib.php')) {
+    throw new Exception ('OpenVeo Moodle API is not installed');
+} else {
+    require_once($CFG->dirroot . '/local/openveo_api/lib.php');
+}
 
 use core_form\filetypes_util;
 use Openveo\Client\Client;
@@ -368,8 +372,7 @@ class repository_openveo extends repository {
      * Serves the original file behind reference.
      *
      * OpenVeo Repository is unabled to serve the original OpenVeo file as original OpenVeo file can't be donwloaded.
-     * Instead of sending file for download it displays a page with a link to the Moodle file reference which might
-     * be transformed into a player by a Media Player.
+     * Instead of sending file for download it displays a page with a link to the video on OpenVeo.
      *
      * @param stored_file $storedfile The file containing the reference
      * @param int $lifetime Number of seconds before the file should expire from caches. Not used by this
@@ -390,7 +393,6 @@ class repository_openveo extends repository {
         require_login();
 
         // Set page header to the file name.
-        $filename = $storedfile->get_filename();
         $url = moodle_url::make_pluginfile_url(
                 $storedfile->get_contextid(),
                 $storedfile->get_component(),
@@ -401,11 +403,11 @@ class repository_openveo extends repository {
         );
 
         $renderer = $PAGE->get_renderer('repository_openveo');
-        $openveofilereference = new openveo_file_reference($url, $filename);
+        $openveofilereference = new openveo_file_reference($this->get_link($storedfile->get_source()));
 
         $fileoutput = format_text($renderer->render($openveofilereference));
 
-        $PAGE->set_heading($filename);
+        $PAGE->set_heading($storedfile->get_filename());
         $PAGE->set_url(new moodle_url($url));
         echo $renderer->header();
         echo $fileoutput;
