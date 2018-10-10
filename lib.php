@@ -285,7 +285,7 @@ class repository_openveo extends repository {
             // Field has restricted extensions.
             // Find a common extension between field extensions and supported extensions.
             $commonextensions = array_intersect($supportedfileextensions, $acceptedtypes);
-            $extension = $commonextensions[0];
+            $extension = array_values($commonextensions)[0];
 
         }
 
