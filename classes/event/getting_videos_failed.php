@@ -63,7 +63,7 @@ class getting_videos_failed extends base {
      * @return string The description of what happened
      */
     public function get_description() : string {
-        return "Failed to get videos (code={$this->other['code']}, module={$this->other['module']}).";
+        return "Failed to get videos with message: {$this->other['message']}.";
     }
 
 }
