@@ -43,7 +43,8 @@ $string['privacy:metadata'] = 'The plugin OpenVeo Repository does not store or t
 $string['searchformlinkfieldlabel'] = 'OpenVeo video URL:';
 $string['searchformsubmitlabel'] = 'Search';
 
-// Original source is missing
+// File details
+$string['referencedetails'] = 'OpenVeo video: {$a}';
 $string['lostsource'] = 'Error. OpenVeo video "{$a}" is missing.';
 
 // Errors

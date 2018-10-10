@@ -223,7 +223,7 @@ class repository_openveo extends repository {
         }
 
         if (!empty($video) && $video->state === 12) {
-            return $video->title;
+            return get_string('referencedetails', 'repository_openveo', $video->title);
         } else {
             return get_string('lostsource', 'repository_openveo', $reference);
         }

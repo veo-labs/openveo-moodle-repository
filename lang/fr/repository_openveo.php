@@ -43,7 +43,8 @@ $string['privacy:metadata'] = 'Le plugin Dépôt OpenVeo n\'enregistre ni ne tra
 $string['searchformlinkfieldlabel'] = 'URL de la vidéo OpenVeo :';
 $string['searchformsubmitlabel'] = 'Rechercher';
 
-// Original source is missing
+// File details
+$string['referencedetails'] = 'Vidéo OpenVeo : {$a}';
 $string['lostsource'] = 'Erreur. La vidéo OpenVeo "{$a}" n\'existe plus.';
 
 // Errors
