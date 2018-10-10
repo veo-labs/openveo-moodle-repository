@@ -216,10 +216,10 @@ class repository_openveo extends repository {
             $video = $response->entity;
         } catch(ClientException $e) {
             $this->send_getting_videos_failed_event($e->getMessage());
-            return '';
+            return get_string('lostsource', 'repository_openveo', $reference);
         } catch(Exception $e) {
             $this->send_requesting_openveo_failed_event($e->getMessage());
-            return '';
+            return get_string('errorgettingsource', 'repository_openveo');
         }
 
         if (!empty($video) && $video->state === 12) {

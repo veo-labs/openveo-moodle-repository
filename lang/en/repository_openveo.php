@@ -49,6 +49,7 @@ $string['lostsource'] = 'Error. OpenVeo video "{$a}" is missing.';
 
 // Errors
 $string['errorlocalpluginnotconfigured'] = 'Local plugin "OpenVeo API" is not configured.';
+$string['errorgettingsource'] = 'Not available.';
 
 // Events
 $string['eventgettingvideosfailed'] = 'Getting videos failed';
