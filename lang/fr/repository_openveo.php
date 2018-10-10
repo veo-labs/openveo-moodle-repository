@@ -22,34 +22,34 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// Plugin name displayed in settings and as the default name of the repository in file pickers
+// Plugin name displayed in settings and as the default name of the repository in file pickers.
 $string['pluginname'] = 'Dépôt OpenVeo';
 
-// Settings page: Header
+// Settings page: Header.
 $string['configplugin'] = 'Configuration Dépôt OpenVeo';
 
-// Global settings
+// Global settings.
 $string['settingssupportedfiletypeslabel'] = 'Types de vidéos';
 $string['settingssupportedfiletypes'] = 'Types de vidéos';
 $string['settingssupportedfiletypes_help'] = 'La liste des types de vidéos que le dépôt OpenVeo peut ajouter. Seuls les champs de formulaire acceptant les types de vidéos listés ici pourront ajouter une vidéo avec le Dépôt OpenVeo.';
 
-// Capabilities
+// Capabilities.
 $string['openveo:view'] = 'Utiliser OpenVeo dans le sélecteur de fichiers';
 
-// Privacy (GDPR)
+// Privacy (GDPR).
 $string['privacy:metadata'] = 'Le plugin Dépôt OpenVeo n\'enregistre ni ne transmet de données personnelles.';
 
-// Search form
+// Search form.
 $string['searchformlinkfieldlabel'] = 'URL de la vidéo OpenVeo :';
 $string['searchformsubmitlabel'] = 'Rechercher';
 
-// File details
+// File details.
 $string['referencedetails'] = 'Vidéo OpenVeo : {$a}';
 $string['lostsource'] = 'Erreur. La vidéo OpenVeo "{$a}" n\'existe plus.';
 
-// Errors
+// Errors.
 $string['errorlocalpluginnotconfigured'] = 'Le plugin local "OpenVeo API" n\'est pas configuré.';
 $string['errorgettingsource'] = 'Pas disponible.';
 
-// Events
+// Events.
 $string['eventgettingvideosfailed'] = 'Récupération des vidéos echouée';
